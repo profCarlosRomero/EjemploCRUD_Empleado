@@ -25,11 +25,20 @@ namespace EjemploCRUD_Empleado.Datos
 
         public MySql.Data.MySqlClient.MySqlConnection Conectar()
         {
-            if(conexion == null)
+            try
             {
-                string conexion_string = System.Configuration.ConfigurationManager.ConnectionStrings["MySQL"].ConnectionString;
-                conexion = new MySql.Data.MySqlClient.MySqlConnection(conexion_string);
-                conexion.Open();
+                if (conexion == null)
+                {
+                    string conexion_string = System.Configuration.ConfigurationManager.ConnectionStrings["MySQL"].ConnectionString;
+                    conexion = new MySql.Data.MySqlClient.MySqlConnection(conexion_string);
+                    conexion.Open();
+
+                    return conexion;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al tratar de conectar a la BD", ex);
             }
 
             return conexion;
@@ -37,7 +46,12 @@ namespace EjemploCRUD_Empleado.Datos
         public void Desconectar()
         {
             if (conexion != null)
+            {
                 conexion.Close();
+                conexion = null; // Es necesario porque al cerrar la conexión no queda en null
+                // y cuando se quiere volver a conectar, conexión no es null (está cerrada) y
+                // entonces se retorna la conexión cerrada
+            }
         }
     }
 }

@@ -16,8 +16,8 @@ namespace EjemploCRUD_Empleado
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
-            Application.Run(new Vista.FrmEmpleado());
+            Application.Run(new Form1());
+            //Application.Run(new Vista.FrmEmpleado());
         }
     }
 }
